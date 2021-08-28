@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using kpmg.assessment.api.services;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Simply.Search.Api.Handlers;
+using Newtonsoft.Json;
 
 namespace kpmg.assessment.api
 {
@@ -43,6 +48,10 @@ namespace kpmg.assessment.api
                     }
                 });
             });
+            services.AddTransient<IDogService, DogService>();
+            services.AddHttpClient();
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(typeof(DogSearchHandler).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
