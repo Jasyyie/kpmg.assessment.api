@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 
-public class DogSearchResponse
+namespace Kpmg.Assessment.Api.Responses
 {
-    public List<DogDetail> Dogs { get; set; }
+    public class DogSearchResponse
+    {
+        public List<DogDetail> Dogs { get; set; }
 
+    }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Kpmg.Assessment.Api.Services;
 using Microsoft.Extensions.Logging;
+using Kpmg.Assessment.Api.Responses;
 
 namespace Kpmg.Assessment.Api.Handlers
 {
@@ -26,6 +27,11 @@ namespace Kpmg.Assessment.Api.Handlers
             try
             {
                 var dogList = await _dogService.GetDogList();
+                if (dogList.Status != "success")
+                {
+                    throw new OperationCanceledException();
+                }
+
                 DogSearchResponse dogSearchResponse = new DogSearchResponse();
                 dogSearchResponse.Dogs = new List<DogDetail>();
                 for (int i = 0; i < dogList.Message.Count; i++)

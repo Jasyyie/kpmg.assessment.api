@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-
 namespace Kpmg.Assessment.Api.Responses
 {
-    public class DogApiResponse
+    public class DogApiImageResponse
     {
-        public Dictionary<string, string[]> Message { get; set; }
+        public string[] Message { get; set; }
         public string Status { get; set; }
     }
 }

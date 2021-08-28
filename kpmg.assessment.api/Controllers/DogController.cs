@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Kpmg.Assessment.Api.Commands;
+using Kpmg.Assessment.Api.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -30,7 +31,7 @@ namespace Kpmg.Assessment.Api.Controllers
             {
                 var request = new DogSearchRequest();
                 var response = await _mediator.Send(request);
-                return Ok(response.Dogs);
+                return Ok(response?.Dogs);
             }
             catch (Exception ex)
             {
@@ -41,9 +42,9 @@ namespace Kpmg.Assessment.Api.Controllers
 
         [HttpGet]
         [Route("{breed}/{sub-breed?}")]
-        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(DogImageResponse), 200)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> GetByBreed([FromRouteAttribute] DogBreedRequest request)
+        public async Task<IActionResult> GetDogImages([FromRouteAttribute] DogImageRequest request)
         {
             try
             {
