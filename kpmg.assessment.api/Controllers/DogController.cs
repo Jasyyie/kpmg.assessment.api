@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using kpmg.assessment.api.commands;
+using Kpmg.Assessment.Api.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace kpmg.assessment.api.Controllers
+namespace Kpmg.Assessment.Api.Controllers
 {
     [ApiController]
     [Route("v1/dog")]
@@ -22,13 +22,15 @@ namespace kpmg.assessment.api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<DogDetail>>> Get()
+        [ProducesResponseType(typeof(List<DogDetail>), 200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Get()
         {
             try
             {
                 var request = new DogSearchRequest();
                 var response = await _mediator.Send(request);
-                return response.Dogs;
+                return Ok(response.Dogs);
             }
             catch (Exception ex)
             {
@@ -39,12 +41,14 @@ namespace kpmg.assessment.api.Controllers
 
         [HttpGet]
         [Route("{breed}/{sub-breed?}")]
-        public async Task<ActionResult<string>> GetByBreed([FromRouteAttribute] DogBreedRequest request)
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetByBreed([FromRouteAttribute] DogBreedRequest request)
         {
             try
             {
                 var response = await _mediator.Send(request);
-                return response;
+                return Ok(response);
             }
             catch (Exception ex)
             {

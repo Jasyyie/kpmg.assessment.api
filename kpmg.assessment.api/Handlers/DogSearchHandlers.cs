@@ -1,21 +1,21 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using kpmg.assessment.api.commands;
+using Kpmg.Assessment.Api.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using kpmg.assessment.api.services;
+using Kpmg.Assessment.Api.Services;
 using Microsoft.Extensions.Logging;
 
-namespace Simply.Search.Api.Handlers
+namespace Kpmg.Assessment.Api.Handlers
 {
     public class DogSearchHandler : IRequestHandler<DogSearchRequest, DogSearchResponse>
     {
         private readonly IDogService _dogService;
-        private readonly ILogger<DogBreedHandler> _logger;
+        private readonly ILogger<DogSearchHandler> _logger;
 
-        public DogSearchHandler(IDogService dogSearchService, ILogger<DogBreedHandler> logger)
+        public DogSearchHandler(IDogService dogSearchService, ILogger<DogSearchHandler> logger)
         {
             _dogService = dogSearchService;
             _logger = logger;

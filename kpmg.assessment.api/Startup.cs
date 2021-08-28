@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using kpmg.assessment.api.services;
+using Kpmg.Assessment.Api.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Simply.Search.Api.Handlers;
+using Kpmg.Assessment.Api.Handlers;
 using Newtonsoft.Json;
 
 namespace kpmg.assessment.api

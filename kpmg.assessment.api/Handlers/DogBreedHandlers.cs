@@ -1,12 +1,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using kpmg.assessment.api.commands;
+using Kpmg.Assessment.Api.Commands;
 using System;
-using kpmg.assessment.api.services;
+using Kpmg.Assessment.Api.Services;
 using Microsoft.Extensions.Logging;
 
-namespace Simply.Search.Api.Handlers
+namespace Kpmg.Assessment.Api.Handlers
 {
     public class DogBreedHandler : IRequestHandler<DogBreedRequest, string>
     {

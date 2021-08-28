@@ -1,11 +1,11 @@
 using System;
-using kpmg.assessment.api.commands;
+using Kpmg.Assessment.Api.Commands;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Linq;
 
-namespace kpmg.assessment.api.services
+namespace Kpmg.Assessment.Api.Services
 {
     public interface IDogService
     {

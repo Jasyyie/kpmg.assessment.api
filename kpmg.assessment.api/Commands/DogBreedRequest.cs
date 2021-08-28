@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace kpmg.assessment.api.commands
+namespace Kpmg.Assessment.Api.Commands
 {
     public class DogBreedRequest : IRequest<string>
     {
