@@ -42,14 +42,14 @@ namespace Kpmg.Assessment.Api.Controllers
 
         [HttpGet]
         [Route("{breed}/{sub-breed?}")]
-        [ProducesResponseType(typeof(DogImageResponse), 200)]
+        [ProducesResponseType(typeof(string[]), 200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetDogImages([FromRouteAttribute] DogImageRequest request)
         {
             try
             {
                 var response = await _mediator.Send(request);
-                return Ok(response);
+                return Ok(response.ImageUrls);
             }
             catch (Exception ex)
             {
