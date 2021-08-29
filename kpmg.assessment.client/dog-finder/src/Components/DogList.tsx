@@ -23,7 +23,7 @@ type DogInfo={
            super(props);
 
            this.state={dogList:[], loading: true, dogvalue:'', dogImages:[]}
-           fetch('https://localhost:5001/v1/dog')
+           fetch('http://localhost:5000/v1/dog')
             .then(response => response.json() as Promise<DogInfo[]>)
             .then(data => {
                 this.setState({ dogList: data, loading: false});
@@ -34,7 +34,7 @@ type DogInfo={
     handleChangeCallback = (event:any) => {
         if(!!event.target.value) {
             //this.setState({ dogvalue: event.target.value }, ()=>console.log(this.state));
-            fetch(`https://localhost:5001/v1/dog/${event.target.value}`)
+            fetch(`http://localhost:5000/v1/dog/${event.target.value}`)
             .then(response=>response.json()as Promise<string[]>)
             .then(data=>{
                 this.setState({dogImages:data, dogvalue: event.target.value, loading:false});

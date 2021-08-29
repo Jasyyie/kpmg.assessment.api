@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace kpmg.assessment.api
 {
@@ -20,6 +14,9 @@ namespace kpmg.assessment.api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+#if !DEBUG
+                    webBuilder.UseUrls("http://+:5000");
+#endif
                     webBuilder.UseStartup<Startup>();
                 });
     }
