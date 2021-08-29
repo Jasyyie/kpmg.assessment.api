@@ -4,11 +4,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { MenuItem } from '@material-ui/core';
+import { OptionInfo } from './DogList';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 500,
+    minWidth: 300,
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -22,10 +23,10 @@ export default function MaterialSelect(props:any) {
   return (
     <div>
       <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel id="demo-simple-select-outlined-label">{props.label}</InputLabel>
+        <InputLabel id={`${props.id}-select-outlined-label`}>{props.label}</InputLabel>
         <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
+          labelId={`${props.id}-select-outlined-label`}
+          id={`${props.id}-select-outlined`}
           value={props.value}
           onChange={props.onChangeCallback}
           label={props.label}
@@ -33,11 +34,11 @@ export default function MaterialSelect(props:any) {
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          {props.items.map((item:any, index: number) => {
+          {props.items.map((item:OptionInfo, index: number) => {
             return <MenuItem 
                     key={`${index}`} 
-                    value={props.onItemRenderCallback(item)}>
-                        {props.onItemRenderCallback(item)}
+                    value={item.value}>
+                        {item.name}
                     </MenuItem>
           })}
         </Select>

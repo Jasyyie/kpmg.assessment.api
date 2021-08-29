@@ -38,4 +38,4 @@ The project is structure to enable extensibility and ease of development. The st
 
 #### Source code
 
-- Clone the project on [jasmine Github](https://github.com/Jasyyie/kpmg.assessment.api) via Http/SSH and pull the repository locally to view the source code.
+- Clone the project on [Jasmine Github repository](https://github.com/Jasyyie/kpmg.assessment.api) and pull the repository to view the source code locally.

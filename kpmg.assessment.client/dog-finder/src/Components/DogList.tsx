@@ -10,59 +10,158 @@ type DogInfo={
     breed:string;
     subbreed:string;
 }
-  type MyState = {
-    dogList:DogInfo[];
-    loading:boolean;
-    dogvalue:string;
-    dogImages:string[];
 
-  };
+export type OptionInfo={
+    value:string;
+    name: string;
+}
+
+type MyState = {
+    dogList:DogInfo[];
+    dogListGroupBy: {[breed: string]: string[]}
+    breedList: OptionInfo[];
+    subbreedList: OptionInfo[];
+    loading:boolean;
+    selectedBreed:string;
+    selectedSubbreed:string;
+    dogImages:string[];
+};
 
   class DogList extends React.Component<MyProps, MyState> {
-       constructor(props: MyProps) {
-           super(props);
+    constructor(props: MyProps) {
+        super(props);
 
-           this.state={dogList:[], loading: true, dogvalue:'', dogImages:[]}
-           fetch('http://localhost:5000/v1/dog')
-            .then(response => response.json() as Promise<DogInfo[]>)
-            .then(data => {
-                this.setState({ dogList: data, loading: false});
+        this.state={
+            dogList:[],
+            dogListGroupBy: {},
+            loading: true, 
+            selectedBreed: '', 
+            selectedSubbreed: '', 
+            dogImages:[],
+            breedList: [],
+            subbreedList: [],
+        }
+        fetch('http://localhost:5000/v1/dog')
+        .then(response => response.json() as Promise<DogInfo[]>)
+        .then(data => {
+            // logic to split breed and related subbreeds
+            const groups = this.groupByDogBreed(data);
+            const breeds: OptionInfo[] = Object.keys(groups).map(x => {
+                return {
+                    value: x,
+                    name: x,
+                };
             });
-           
-       }
 
-    handleChangeCallback = (event:any) => {
+            this.setState({ dogList: data, dogListGroupBy: groups, breedList: breeds, loading: false});
+        });
+    }
+
+    handleBreedChangeCallback = (event:any) => {
         if(!!event.target.value) {
-            //this.setState({ dogvalue: event.target.value }, ()=>console.log(this.state));
             fetch(`http://localhost:5000/v1/dog/${event.target.value}`)
             .then(response=>response.json()as Promise<string[]>)
             .then(data=>{
-                this.setState({dogImages:data, dogvalue: event.target.value, loading:false});
+                const subbreeds:OptionInfo[] = this.state.dogListGroupBy[event.target.value].map(x => {
+                    return {
+                        value: x,
+                        name: x,
+                    };
+                });
+                this.setState({
+                    dogImages:data, 
+                    selectedBreed: event.target.value, 
+                    subbreedList: subbreeds,
+                    selectedSubbreed:'', 
+                    loading:false
+                });
             })
         } else {
-            this.setState({dogImages:[], dogvalue: event.target.value, loading:false});
+            this.setState({
+                dogImages:[], 
+                selectedBreed: event.target.value, 
+                subbreedList: [],
+                selectedSubbreed:'', 
+                loading:false
+            });
         }
     };
-    
-    handleSubbreedCallback=(doginfo:DogInfo)=>{
-        if(!doginfo.subbreed)
-        {
-        return doginfo.breed;
+
+    handleSubbreedChangeCallback = (event:any) => {
+        let endpoint = this.state.selectedBreed;
+
+        if(!!event.target.value) {
+            endpoint = endpoint + `/${event.target.value}`;
         }
-        return `${doginfo.breed}/${doginfo.subbreed}`
-    }
+
+        fetch(`http://localhost:5000/v1/dog/${endpoint}`)
+            .then(response=>response.json()as Promise<string[]>)
+            .then(data=>{
+                this.setState({
+                    dogImages:data, 
+                    selectedSubbreed: event.target.value, 
+                    loading:false
+                });
+            });
+    };
+
+    // https://codereview.stackexchange.com/questions/37028/grouping-elements-in-array-by-multiple-properties
+    groupByDogBreed = (arr: DogInfo[]): {[breed: string]: string[]} => {
+
+    let groups: {[breed: string]: string[]} = {};
+
+    arr.forEach((item) => {
+      let group: string = item.breed;
+      groups[group] = groups[group] || [];
+      groups[group].push(item.subbreed);
+    });
+
+    return groups;
+    // this.setState({dogListGroupBy: groups});
+
+    // let groupByItems = Object.keys(groups).map(g => {
+    //   let groupItems = groups[g];
+    //   let count = groupItems.length;
+    //   let latestAdded = groupItems.splice(-1, 1);
+
+    //   return {
+    //     key: g,
+    //     value: latestAdded[0].breed, // get the latest added item
+    //     count: count,
+    //     groups: groupItems,
+    //   };
+    // });
+
+
+
+    // return groupByItems.sort((a,b) => {
+    //   if(a.key < b.key)
+    //     return -1;
+      
+    //   if (a.key > b.key)
+    //     return 1;
+
+    //   return 0;
+    // });
+  };
      
-    
-   
     render() {
       return (
         <div>
+            <MaterialSelect
+                id="dog-breed"
+                label="Breed" 
+                value={this.state.selectedBreed}
+                onChangeCallback={this.handleBreedChangeCallback}
+                items={this.state.breedList}
+            >
+            </MaterialSelect>
             <MaterialSelect 
-                label="Dog breed and subbreed" 
-                value={this.state.dogvalue}
-                onChangeCallback={this.handleChangeCallback}
-                items={this.state.dogList}
-                onItemRenderCallback={this.handleSubbreedCallback}
+                id="dog-sub-breed"
+                label="Sub-breed" 
+                value={this.state.selectedSubbreed}
+                onChangeCallback={this.handleSubbreedChangeCallback}
+                items={this.state.subbreedList}
             >
             </MaterialSelect>
             
