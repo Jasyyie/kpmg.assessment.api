@@ -117,32 +117,7 @@ type MyState = {
     });
 
     return groups;
-    // this.setState({dogListGroupBy: groups});
 
-    // let groupByItems = Object.keys(groups).map(g => {
-    //   let groupItems = groups[g];
-    //   let count = groupItems.length;
-    //   let latestAdded = groupItems.splice(-1, 1);
-
-    //   return {
-    //     key: g,
-    //     value: latestAdded[0].breed, // get the latest added item
-    //     count: count,
-    //     groups: groupItems,
-    //   };
-    // });
-
-
-
-    // return groupByItems.sort((a,b) => {
-    //   if(a.key < b.key)
-    //     return -1;
-      
-    //   if (a.key > b.key)
-    //     return 1;
-
-    //   return 0;
-    // });
   };
      
     render() {
